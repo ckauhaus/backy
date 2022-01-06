@@ -8,6 +8,7 @@ import shutil
 import signal
 import sys
 import time
+import tzlocal
 
 import humanize
 import pkg_resources
@@ -364,11 +365,10 @@ class SchedulerShell(object):
         """List status of all known jobs. Optionally filter by regex."""
         filter_re = re.compile(filter_re) if filter_re else None
 
-        tz = format_datetime_local(None)[1]
-
+        zone = tzlocal.get_localzone()
         t = prettytable.PrettyTable([
-            'Job', 'SLA', 'SLA overdue', 'Status', f'Last Backup ({tz.zone})',
-            'Last Tags', 'Last Duration', f'Next Backup ({tz.zone})',
+            'Job', 'SLA', 'SLA overdue', 'Status', f'Last Backup ({zone})',
+            'Last Tags', 'Last Duration', f'Next Backup ({zone})',
             'Next Tags'])
         t.align = 'l'
         t.align['Last Dur'] = 'r'

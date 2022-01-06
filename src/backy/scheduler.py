@@ -77,9 +77,13 @@ class Job(object):
         if self.status == 'running':
             return 0
         age = backy.utils.now() - self.backup.clean_history[-1].timestamp
-        max_age = min(x['interval'] for x in self.schedule.schedule.values())
-        if age > max_age * 1.5:
-            return age.total_seconds()
+        try:
+            max_age = min(x['interval']
+                          for x in self.schedule.schedule.values())
+            if age > max_age * 1.5:
+                return age.total_seconds()
+        except KeyError:
+            logger.error('{}: invalid schedule config'.format(self.name))
         return 0
 
     @property
