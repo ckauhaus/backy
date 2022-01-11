@@ -77,6 +77,7 @@ setup(
             file = backy.sources.file:File
             flyingcircus = \
                 backy.sources.flyingcircus.source:FlyingCircusRootDisk
+            opennebula = backy.sources.opennebula.source:OpenNebulaDisk
 
     """,
     author=('Christian Theune <ct@flyingcircus.io>, '

@@ -42,7 +42,7 @@ class RBDClient(object):
         self._rbd(['--read-only' if readonly else '', 'map', image])
 
         mappings = self._rbd(['showmapped'], format='json')
-        for mapping in mappings.values():
+        for mapping in mappings:
             if image == '{pool}/{name}@{snap}'.format(**mapping):
                 return mapping
         raise RuntimeError('Map not found in mapping list.')
@@ -58,6 +58,9 @@ class RBDClient(object):
 
     def snap_rm(self, image):
         return self._rbd(['snap', 'rm', image])
+
+    def snap_unprotect(self, image):
+        return self._rbd(['snap', 'unprotect', image])
 
     @contextlib.contextmanager
     def export_diff(self, new, old):
